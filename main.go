@@ -21,11 +21,13 @@ import (
 var (
 	log               = glog.New(os.Stderr, "", glog.Lshortfile)
 	fstruct           = flag.String("s", "Foo", "struct name for json object")
+	tagsFlag          arrayFlags
 	debug             = false
 	ErrNotValidSyntax = errors.New("Json reflection is not valid Go syntax")
 )
 
 func main() {
+	flag.Var(&tagsFlag, "tag", "add custom flag additional to \"json\". Example: \"jflect -tag db -tag rmq\" will produce struct with json, db and rmq tags.")
 	flag.Parse()
 	err := read(os.Stdin, os.Stdout)
 	if err != nil {

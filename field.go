@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"unicode"
+	"bytes"
 )
 
 // Field data type
@@ -55,5 +56,18 @@ func goField(jf string) string {
 
 // Returns the json tag from a json field.
 func goTag(jf string) string {
-	return fmt.Sprintf("`json:\"%s\"`", jf)
+
+	var buffer bytes.Buffer
+
+	buffer.WriteString(fmt.Sprintf("`json:\"%s\"", jf))
+
+	if len(tagsFlag) > 0 {
+
+		for _, tag := range tagsFlag {
+			buffer.WriteString(fmt.Sprintf(" %s:\"%s\"", tag, jf))
+		}
+	}
+
+	buffer.WriteString("`")
+	return buffer.String()
 }

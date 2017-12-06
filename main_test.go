@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"io"
 	"os"
-	"reflect"
 	"testing"
 )
 
@@ -39,8 +38,69 @@ func TestReflect(t *testing.T) {
 		if err != nil {
 			t.Error(err)
 		}
-		if !reflect.DeepEqual(want, got.Bytes()) {
-			t.Errorf("%s: want %d bytes got %d bytes", f.path, len(want), len(got.Bytes()))
+		strWant := string(want)
+		strGot := got.String()
+		if strWant != strGot {
+			t.Errorf("%s: want %d bytes got %d bytes", f.path, len(strWant), len(strGot))
+			minLen := len(strWant)
+			if minLen > len(strGot) {
+				minLen = len(strGot)
+			}
+			for i := 0; i < minLen; i++ {
+				if strWant[i] != strGot[i] {
+					t.Errorf("difference starts at %d, (want: \"%s\", got: \"%s\")", i,
+						strWant[i-5:i+5], strGot[i-5: i+5])
+
+					break
+				}
+
+			}
+		}
+		//if !reflect.DeepEqual(want, got.Bytes()) {
+		//	t.Errorf("%s: want %d bytes got %d bytes", f.path, len(want), len(got.Bytes()))
+		//	fmt.Println(string(want))
+		//}
+	}
+}
+
+func TestReflectWithTags(t *testing.T) {
+	for _, f := range testFiles {
+		want, err := readWant(f.path + ".want_tags")
+		if err != nil {
+			t.Fatal(err)
+		}
+		fd, err := os.Open(f.path)
+		if err != nil {
+			t.Error(err)
+			continue
+		}
+		defer fd.Close()
+		got := new(bytes.Buffer)
+
+		tagsFlag = append(tagsFlag, "db")
+		err = read(fd, got)
+		if err != nil {
+			t.Error(err)
+		}
+		tagsFlag = tagsFlag[:0]
+
+		strWant := string(want)
+		strGot := got.String()
+		if strWant != strGot {
+			t.Errorf("%s: want %d bytes got %d bytes", f.path, len(strWant), len(strGot))
+			minLen := len(strWant)
+			if minLen > len(strGot) {
+				minLen = len(strGot)
+			}
+			for i := 0; i < minLen; i++ {
+				if strWant[i] != strGot[i] {
+					t.Errorf("difference starts at %d, (want: \"%s\", got: \"%s\")", i,
+						strWant[i-5:i+5], strGot[i-5: i+5])
+
+					break
+				}
+
+			}
 		}
 	}
 }

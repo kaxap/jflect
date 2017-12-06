@@ -1,0 +1,43 @@
+type Foo struct {
+	CloneUrl     string   `json:"clone_url" db:"clone_url"`
+	CreatedAt    string   `json:"created_at" db:"created_at"`
+	Description  string   `json:"description" db:"description"`
+	Events       []string `json:"events" db:"events"`
+	Fork         bool     `json:"fork" db:"fork"`
+	Forks        int      `json:"forks" db:"forks"`
+	ForksCount   int      `json:"forks_count" db:"forks_count"`
+	FullName     string   `json:"full_name" db:"full_name"`
+	GitUrl       string   `json:"git_url" db:"git_url"`
+	HasDownloads bool     `json:"has_downloads" db:"has_downloads"`
+	HasIssues    bool     `json:"has_issues" db:"has_issues"`
+	HasWiki      bool     `json:"has_wiki" db:"has_wiki"`
+	Hashes       []struct {
+		Desc string `json:"desc" db:"desc"`
+		Id   int    `json:"id" db:"id"`
+	} `json:"hashes" db:"hashes"`
+	Homepage        string `json:"homepage" db:"homepage"`
+	HtmlUrl         string `json:"html_url" db:"html_url"`
+	Id              int    `json:"id" db:"id"`
+	Language        string `json:"language" db:"language"`
+	MasterBranch    string `json:"master_branch" db:"master_branch"`
+	Name            string `json:"name" db:"name"`
+	NetworkCount    int    `json:"network_count" db:"network_count"`
+	OpenIssues      int    `json:"open_issues" db:"open_issues"`
+	OpenIssuesCount int    `json:"open_issues_count" db:"open_issues_count"`
+	Owner           struct {
+		AvatarUrl  string `json:"avatar_url" db:"avatar_url"`
+		GravatarId string `json:"gravatar_id" db:"gravatar_id"`
+		Id         int    `json:"id" db:"id"`
+		Login      string `json:"login" db:"login"`
+		Url        string `json:"url" db:"url"`
+	} `json:"owner" db:"owner"`
+	Private       bool   `json:"private" db:"private"`
+	PushedAt      string `json:"pushed_at" db:"pushed_at"`
+	Size          int    `json:"size" db:"size"`
+	SshUrl        string `json:"ssh_url" db:"ssh_url"`
+	SvnUrl        string `json:"svn_url" db:"svn_url"`
+	UpdatedAt     string `json:"updated_at" db:"updated_at"`
+	Url           string `json:"url" db:"url"`
+	Watchers      int    `json:"watchers" db:"watchers"`
+	WatchersCount int    `json:"watchers_count" db:"watchers_count"`
+}
